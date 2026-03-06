@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { blogContent } from '../data/blogContent';
+import AdSense from '../components/AdSense';
 
 const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -29,30 +30,29 @@ const BlogPost: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <header className="bg-white/80 backdrop-blur-md shadow-xl sticky top-0 z-20 border-b border-blue-100">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/blog')}
-              className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
-              aria-label="Go back"
-            >
-              <i className="fa fa-arrow-left text-lg"></i>
-            </button>
-            <button
-              onClick={() => navigate('/')}
-              className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
-            >
-              <i className="fa fa-home mr-2"></i>
-              Home
-            </button>
-          </div>
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <button
+            onClick={() => navigate('/blog')}
+            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg flex items-center justify-center text-blue-600"
+            aria-label="Go back"
+          >
+            <i className="fa fa-arrow-left text-lg"></i>
+          </button>
+          <button
+            onClick={() => navigate('/')}
+            className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+          >
+            <i className="fa fa-home mr-2"></i> Home
+          </button>
         </div>
       </header>
 
       <article className="container mx-auto px-4 py-12 max-w-4xl">
+        {/* Top Banner Ad */}
+        <AdSense slot="8509863911" format="auto" responsive="true" className="w-full mb-6" />
+
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
           <div className={`h-3 bg-gradient-to-r ${article.color}`}></div>
-          
           <div className="p-8 md:p-12">
             <div className="flex items-center space-x-4 mb-6">
               <span className={`inline-block text-sm font-bold uppercase tracking-wide bg-gradient-to-r ${article.color} bg-clip-text text-transparent`}>
@@ -78,9 +78,7 @@ const BlogPost: React.FC = () => {
               </div>
             </div>
 
-            <div className="prose prose-lg max-w-none">
-              {article.content}
-            </div>
+            <div className="prose prose-lg max-w-none">{article.content}</div>
 
             <div className="mt-12 pt-8 border-t border-slate-200">
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
@@ -101,21 +99,9 @@ const BlogPost: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <button
-                onClick={() => navigate('/blog')}
-                className="flex-1 min-w-[200px] bg-slate-100 text-slate-700 font-semibold px-6 py-3 rounded-xl hover:bg-slate-200 transition-all"
-              >
-                <i className="fa fa-arrow-left mr-2"></i>
-                Back to Blog
-              </button>
-              <button
-                onClick={() => navigate('/contact')}
-                className="flex-1 min-w-[200px] bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all"
-              >
-                <i className="fa fa-envelope mr-2"></i>
-                Contact Us
-              </button>
+            {/* Multiplex Ad After CTA */}
+            <div className="mt-12">
+              <AdSense slot="4634556878" format="autorelaxed" className="w-full max-w-4xl mx-auto px-4" />
             </div>
           </div>
         </div>
