@@ -5,6 +5,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import JobCard from '../components/JobCard';
 import AdSense from '../components/AdSense';
 
+type SortOption = 'date' | 'jobType' | 'salaryHighLow';
+
 const JobListing: React.FC = () => {
   const { country } = useParams<{ country: string }>();
   const navigate = useNavigate();
@@ -13,10 +15,27 @@ const JobListing: React.FC = () => {
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('date');
+  const [categories, setCategories] = useState<string[]>(['All']);
+  const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
 
   useEffect(() => {
     loadJobs();
   }, [country]);
+
+  useEffect(() => {
+    filterAndSortJobs();
+  }, [jobs, selectedCategory, searchQuery, sortBy]);
+
+  const isSalarySpecified = (salary: string): boolean => {
+    if (!salary) return false;
+    const normalizedSalary = salary.toLowerCase().trim();
+    if (normalizedSalary === 'not specified' || normalizedSalary === '') return false;
+    const hasNumber = /\d/.test(salary);
+    return hasNumber;
+  };
 
   const loadJobs = async () => {
     if (!country) return;
@@ -30,44 +49,148 @@ const JobListing: React.FC = () => {
       setError(response.error);
     } else if (response.data) {
       const allJobs = response.data;
-      const featured = allJobs.filter(job => job.featured === 'Yes');
-      const nonFeatured = allJobs.filter(job => job.featured !== 'Yes');
-
+      const featured = allJobs.filter(job => 
+        job.featured === 'Yes' && isSalarySpecified(job.salary)
+      );
+      const nonFeatured = allJobs.filter(job => 
+        !(job.featured === 'Yes' && isSalarySpecified(job.salary))
+      );
+      
       setFeaturedJobs(featured);
       setJobs(nonFeatured);
+      
+      const uniqueCategories = ['All', ...new Set(allJobs.map(job => job.category).filter(Boolean))];
+      setCategories(uniqueCategories);
     }
 
     setLoading(false);
   };
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <div className="text-center mt-12">{error}</div>;
+  const parseSalary = (salaryString: string): number => {
+    if (!salaryString) return 0;
+    
+    const cleanedString = salaryString.replace(/[^0-9.]/g, '');
+    const numbers = cleanedString.match(/\d+\.?\d*/g);
+    
+    if (!numbers || numbers.length === 0) return 0;
+    
+    const firstNumber = parseFloat(numbers[0]);
+    
+    if (salaryString.toLowerCase().includes('k')) {
+      return firstNumber * 1000;
+    }
+    
+    return firstNumber;
+  };
 
-  const combinedJobs = [...featuredJobs, ...jobs];
-  
+  const filterAndSortJobs = () => {
+    let filtered = jobs;
+
+    if (selectedCategory !== 'All') {
+      filtered = filtered.filter(job => job.category === selectedCategory);
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter(job =>
+        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.location.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    let sorted = [...filtered];
+    
+    switch (sortBy) {
+      case 'date':
+        sorted.sort((a, b) => {
+          const idA = parseInt(a.id) || 0;
+          const idB = parseInt(b.id) || 0;
+          return idB - idA;
+        });
+        break;
+      
+      case 'jobType':
+        sorted.sort((a, b) => {
+          const categoryA = a.category || '';
+          const categoryB = b.category || '';
+          return categoryA.localeCompare(categoryB);
+        });
+        break;
+      
+      case 'salaryHighLow':
+        sorted.sort((a, b) => {
+          const salaryA = parseSalary(a.salary || '');
+          const salaryB = parseSalary(b.salary || '');
+          return salaryB - salaryA;
+        });
+        break;
+    }
+
+    setFilteredJobs(sorted);
+  };
+
+  const handleSaveJob = (jobId: string) => {
+    if (savedJobsApi.isSaved(jobId)) {
+      savedJobsApi.unsaveJob(jobId);
+    } else {
+      savedJobsApi.saveJob(jobId);
+    }
+    setJobs([...jobs]);
+    setFeaturedJobs([...featuredJobs]);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto px-4 py-6">
-      {combinedJobs.map((job, index) => (
-        <React.Fragment key={job.id}>
+    <div className="min-h-screen bg-gray-50">
+      <main className="container mx-auto px-4 py-6">
+        {/* Featured Jobs */}
+        {featuredJobs.map((job, idx) => (
           <JobCard
+            key={job.id}
             job={job}
             isSaved={savedJobsApi.isSaved(job.id)}
-            onSave={() => {
-              if (savedJobsApi.isSaved(job.id)) savedJobsApi.unsaveJob(job.id);
-              else savedJobsApi.saveJob(job.id);
-              setJobs([...jobs]);
-            }}
+            onSave={() => handleSaveJob(job.id)}
             onApply={() => navigate(`/apply/${job.id}`)}
           />
+        ))}
 
-          {/* Insert a display ad every 6 jobs */}
-          {index > 0 && (index + 1) % 6 === 0 && (
-            <div className="my-6">
-              <AdSense slot="8509863911" format="auto" responsive="true" className="w-full max-w-4xl mx-auto px-4" />
-            </div>
-          )}
-        </React.Fragment>
-      ))}
+        {/* Non-Featured Jobs with Ads inserted every 3 jobs */}
+        {filteredJobs.map((job, idx) => (
+          <React.Fragment key={job.id}>
+            <JobCard
+              job={job}
+              isSaved={savedJobsApi.isSaved(job.id)}
+              onSave={() => handleSaveJob(job.id)}
+              onApply={() => navigate(`/apply/${job.id}`)}
+            />
+            {(idx + 1) % 3 === 0 && (
+              <div className="my-6 flex justify-center">
+                <AdSense
+                  slot="8509863911" // Top Banner ad slot
+                  format="auto"
+                  responsive="true"
+                  className="w-full max-w-7xl px-4"
+                />
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </main>
     </div>
   );
 };
