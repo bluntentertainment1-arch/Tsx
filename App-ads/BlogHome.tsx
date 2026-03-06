@@ -162,41 +162,57 @@ const BlogHome: React.FC = () => {
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <button
-                key={article.slug}
-                onClick={() => navigate(`/blog/${article.slug}`)}
-                className="group text-left bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:scale-105"
-              >
-                <div className={`h-2 bg-gradient-to-r ${article.color}`}></div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${article.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
-                      <i className={`fa ${article.icon} text-white text-xl`}></i>
+            {articles.map((article, idx) => (
+              <React.Fragment key={article.slug}>
+                <button
+                  onClick={() => navigate(`/blog/${article.slug}`)}
+                  className="group text-left bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:scale-105"
+                >
+                  <div className={`h-2 bg-gradient-to-r ${article.color}`}></div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 bg-gradient-to-br ${article.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
+                        <i className={`fa ${article.icon} text-white text-xl`}></i>
+                      </div>
+                      <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                        {article.readTime}
+                      </span>
                     </div>
-                    <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                      {article.readTime}
+                    
+                    <span className={`inline-block text-xs font-bold uppercase tracking-wide mb-3 bg-gradient-to-r ${article.color} bg-clip-text text-transparent`}>
+                      {article.category}
                     </span>
+                    
+                    <h3 className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-tight">
+                      {article.title}
+                    </h3>
+                    
+                    <p className="text-sm text-slate-600 leading-relaxed mb-4 mt-3">
+                      {article.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center text-blue-600 font-semibold text-sm">
+                      <span>Read Article</span>
+                      <i className="fa fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                    </div>
                   </div>
-                  
-                  <span className={`inline-block text-xs font-bold uppercase tracking-wide mb-3 bg-gradient-to-r ${article.color} bg-clip-text text-transparent`}>
-                    {article.category}
-                  </span>
-                  
-                  <h3 className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-tight">
-                    {article.title}
-                  </h3>
-                  
-                  <p className="text-sm text-slate-600 leading-relaxed mb-4 mt-3">
-                    {article.excerpt}
-                  </p>
-                  
-                  <div className="flex items-center text-blue-600 font-semibold text-sm">
-                    <span>Read Article</span>
-                    <i className="fa fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                {/* Insert Banner Ad after the 6th article */}
+                {idx === 5 && (
+                  <div className="col-span-full flex justify-center my-8">
+                    <ins className="adsbygoogle"
+                         style={{ display: 'block' }}
+                         data-ad-client="ca-pub-1819215492028258"
+                         data-ad-slot="8509863911"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                      {(adsbygoogle = window.adsbygoogle || []).push({})}
+                    </script>
                   </div>
-                </div>
-              </button>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
