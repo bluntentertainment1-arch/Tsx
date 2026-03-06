@@ -99,7 +99,19 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        
+
+        {/* Multiplex Ad */}
+        <div className="flex justify-center my-6">
+          <ins className="adsbygoogle"
+               style={{ display: 'block' }}
+               data-ad-format="autorelaxed"
+               data-ad-client="ca-pub-1819215492028258"
+               data-ad-slot="4634556878"></ins>
+          <script>
+            {(adsbygoogle = window.adsbygoogle || []).push({})}
+          </script>
+        </div>
+
         <div className="border-t border-slate-200 pt-6 text-center">
           <p className="text-slate-600 text-sm">
             © 2026 Global Work Visa Jobs. All rights reserved.
