@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface BlogArticle {
@@ -125,122 +125,91 @@ const BlogHome: React.FC = () => {
     }
   ];
 
+  // React-safe AdSense injection
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <header className="bg-white/80 backdrop-blur-md shadow-xl sticky top-0 z-20 border-b border-blue-100">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/')}
-              className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
-              aria-label="Go back"
-            >
-              <i className="fa fa-arrow-left text-lg"></i>
-            </button>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Career Resources & Blog
-            </h1>
-            <div className="w-10"></div>
-          </div>
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <button
+            onClick={() => navigate('/')}
+            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
+            aria-label="Go back"
+          >
+            <i className="fa fa-arrow-left text-lg"></i>
+          </button>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Career Resources & Blog
+          </h1>
+          <div className="w-10"></div>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <div className="inline-block mb-4">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-xl mx-auto">
-              <i className="fa fa-newspaper text-4xl text-white"></i>
-            </div>
-          </div>
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-slate-800 via-blue-700 to-indigo-700 bg-clip-text text-transparent mb-4">
-            Top Career Guides
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Comprehensive resources to help you navigate your European job search journey successfully
-          </p>
+        {/* AdSense Banner */}
+        <div className="my-8 flex justify-center">
+          <ins className="adsbygoogle"
+               style={{ display: 'block' }}
+               data-ad-client="ca-pub-1819215492028258"
+               data-ad-slot="8509863911"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
         </div>
 
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article, idx) => (
-              <React.Fragment key={article.slug}>
-                <button
-                  onClick={() => navigate(`/blog/${article.slug}`)}
-                  className="group text-left bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:scale-105"
-                >
-                  <div className={`h-2 bg-gradient-to-r ${article.color}`}></div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`w-12 h-12 bg-gradient-to-br ${article.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
-                        <i className={`fa ${article.icon} text-white text-xl`}></i>
-                      </div>
-                      <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                        {article.readTime}
-                      </span>
-                    </div>
-                    
-                    <span className={`inline-block text-xs font-bold uppercase tracking-wide mb-3 bg-gradient-to-r ${article.color} bg-clip-text text-transparent`}>
-                      {article.category}
-                    </span>
-                    
-                    <h3 className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-tight">
-                      {article.title}
-                    </h3>
-                    
-                    <p className="text-sm text-slate-600 leading-relaxed mb-4 mt-3">
-                      {article.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center text-blue-600 font-semibold text-sm">
-                      <span>Read Article</span>
-                      <i className="fa fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
-                    </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {articles.map(article => (
+            <button
+              key={article.slug}
+              onClick={() => navigate(`/blog/${article.slug}`)}
+              className="group text-left bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:scale-105"
+            >
+              <div className={`h-2 bg-gradient-to-r ${article.color}`}></div>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-12 h-12 bg-gradient-to-br ${article.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
+                    <i className={`fa ${article.icon} text-white text-xl`}></i>
                   </div>
-                </button>
-
-                {/* Insert Banner Ad after the 6th article */}
-                {idx === 5 && (
-                  <div className="col-span-full flex justify-center my-8">
-                    <ins className="adsbygoogle"
-                         style={{ display: 'block' }}
-                         data-ad-client="ca-pub-1819215492028258"
-                         data-ad-slot="8509863911"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                      {(adsbygoogle = window.adsbygoogle || []).push({})}
-                    </script>
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+                  <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                    {article.readTime}
+                  </span>
+                </div>
+                
+                <span className={`inline-block text-xs font-bold uppercase tracking-wide mb-3 bg-gradient-to-r ${article.color} bg-clip-text text-transparent`}>
+                  {article.category}
+                </span>
+                
+                <h3 className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-tight">
+                  {article.title}
+                </h3>
+                
+                <p className="text-sm text-slate-600 leading-relaxed mb-4 mt-3">
+                  {article.excerpt}
+                </p>
+                
+                <div className="flex items-center text-blue-600 font-semibold text-sm">
+                  <span>Read Article</span>
+                  <i className="fa fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                </div>
+              </div>
+            </button>
+          ))}
         </div>
 
-        <div className="mt-16 max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl shadow-xl p-8 text-white text-center">
-            <i className="fa fa-lightbulb text-5xl mb-4"></i>
-            <h3 className="text-2xl font-bold mb-4">Need More Help?</h3>
-            <p className="text-lg mb-6 text-blue-50">
-              Browse our job listings or contact us for personalized guidance
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => navigate('/')}
-                className="bg-white text-blue-600 font-bold px-8 py-3 rounded-xl hover:bg-blue-50 transition-all shadow-lg"
-              >
-                <i className="fa fa-briefcase mr-2"></i>
-                Browse Jobs
-              </button>
-              <button
-                onClick={() => navigate('/contact')}
-                className="bg-blue-700 text-white font-bold px-8 py-3 rounded-xl hover:bg-blue-800 transition-all shadow-lg border-2 border-white"
-              >
-                <i className="fa fa-envelope mr-2"></i>
-                Contact Us
-              </button>
-            </div>
-          </div>
+        {/* In-article Ad */}
+        <div className="my-12 flex justify-center">
+          <ins className="adsbygoogle"
+               style={{ display: 'block', textAlign: 'center' }}
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-1819215492028258"
+               data-ad-slot="9739185101"></ins>
         </div>
       </main>
     </div>
