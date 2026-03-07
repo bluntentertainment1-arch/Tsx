@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
+
+  // Push AdSense after component mounts
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }, []);
 
   return (
     <footer className="bg-white/80 backdrop-blur-md border-t border-slate-200 py-8 mt-20">
@@ -14,7 +23,7 @@ const Footer: React.FC = () => {
               Your gateway to European job opportunities with visa sponsorship.
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-md font-semibold text-slate-800 mb-3">Quick Links</h4>
             <ul className="space-y-2">
@@ -52,7 +61,7 @@ const Footer: React.FC = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-md font-semibold text-slate-800 mb-3">Legal</h4>
             <ul className="space-y-2">
@@ -101,15 +110,12 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Multiplex Ad */}
-        <div className="flex justify-center my-6">
+        <div className="my-8 flex justify-center">
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-format="autorelaxed"
                data-ad-client="ca-pub-1819215492028258"
                data-ad-slot="4634556878"></ins>
-          <script>
-            {(adsbygoogle = window.adsbygoogle || []).push({})}
-          </script>
         </div>
 
         <div className="border-t border-slate-200 pt-6 text-center">
