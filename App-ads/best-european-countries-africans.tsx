@@ -112,8 +112,8 @@ export const bestEuropeanCountriesAfricansContent = (
       <div className="mt-4 p-4 bg-blue-50 rounded-lg">
         <p className="text-sm text-slate-700">
           <strong>Find German Jobs:</strong> Browse current opportunities at{' '}
-          <a href="https://globalworkvisajobs.pages.dev" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">
-            globalworkvisajobs.pages.dev
+          <a href="https://globalworkvisajobs.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">
+            globalworkvisajobs.com
           </a>
         </p>
       </div>
@@ -178,8 +178,8 @@ export const bestEuropeanCountriesAfricansContent = (
       <div className="mt-4 p-4 bg-blue-50 rounded-lg">
         <p className="text-sm text-slate-700">
           <strong>UK Opportunities:</strong> Explore at{' '}
-          <a href="https://globalworkvisajobs.pages.dev" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">
-            globalworkvisajobs.pages.dev
+          <a href="https://globalworkvisajobs.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">
+            globalworkvisajobs.com
           </a>
         </p>
       </div>
@@ -538,8 +538,8 @@ export const bestEuropeanCountriesAfricansContent = (
           </p>
           <p className="text-slate-700">
             Explore job opportunities in these welcoming countries at{' '}
-            <a href="https://globalworkvisajobs.pages.dev" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 underline font-semibold">
-              globalworkvisajobs.pages.dev
+            <a href="https://globalworkvisajobs.com" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 underline font-semibold">
+              globalworkvisajobs.com
             </a>
           </p>
         </div>
