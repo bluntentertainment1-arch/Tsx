@@ -4,6 +4,28 @@ import { jobsApi, savedJobsApi, Job } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import JobCard from '../components/JobCard';
 
+// AdSense banner component
+const AdBanner: React.FC = () => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'block', margin: '1rem 0' }}
+      data-ad-client="ca-pub-1819215492028258"
+      data-ad-slot="8509863911"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+  );
+};
+
 const FeaturedJobs: React.FC = () => {
   const navigate = useNavigate();
   const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]);
@@ -81,17 +103,22 @@ const FeaturedJobs: React.FC = () => {
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
-            {featuredJobs.map((job) => (
-              <JobCard
-                key={job.id}
-                job={job}
-                isSaved={savedJobsApi.isSaved(job.id)}
-                onApply={() => {}}
-                onSave={() => handleSaveJob(job.id)}
-              />
-            ))}
-          </div>
+          <>
+            {/* AdSense banner at the top of featured jobs */}
+            <AdBanner />
+
+            <div className="space-y-4">
+              {featuredJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  isSaved={savedJobsApi.isSaved(job.id)}
+                  onApply={() => {}}
+                  onSave={() => handleSaveJob(job.id)}
+                />
+              ))}
+            </div>
+          </>
         )}
       </main>
     </div>
