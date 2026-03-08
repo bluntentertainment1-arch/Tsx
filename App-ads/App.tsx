@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import BrandingBadge from './components/BrandingBadge';
-import SplashScreen from './screens/SplashScreen';
 import CountrySelection from './screens/CountrySelection';
 import JobListing from './screens/JobListing';
 import JobDetails from './screens/JobDetails';
@@ -25,20 +24,6 @@ function ScrollToTop() {
 }
 
 const App: React.FC = () => {
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (showSplash) {
-    return <SplashScreen />;
-  }
-
   return (
     <BrowserRouter>
       <ScrollToTop />
