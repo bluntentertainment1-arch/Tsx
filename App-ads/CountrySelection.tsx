@@ -352,9 +352,7 @@ const CountrySelection: React.FC = () => {
             </div>
           </div>
         </div>
-
       <Footer />
     </div>
   );
-
 export default CountrySelection;
