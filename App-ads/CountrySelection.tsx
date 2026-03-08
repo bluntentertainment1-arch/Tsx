@@ -318,7 +318,7 @@ const CountrySelection: React.FC = () => {
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
                       <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fa fa-user-tie text-green-600 text-xl"></i>
+                        <i className="fa fa-user-graduate text-green-600 text-xl"></i>
                       </div>
                     </div>
                     <div className="flex-1">
@@ -326,7 +326,7 @@ const CountrySelection: React.FC = () => {
                         Interview Preparation Tips
                       </h3>
                       <p className="text-sm text-slate-600 mb-3">
-                        How to ace your European job interviews
+                        How to ace your European job interviews and secure your dream position
                       </p>
                       <span className="text-xs text-green-600 font-semibold">
                         Read More <i className="fa fa-arrow-right ml-1"></i>
@@ -334,25 +334,16 @@ const CountrySelection: React.FC = () => {
                     </div>
                   </div>
                 </button>
-         <div className="mt-20 text-center">
-          <div className="inline-block bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 p-8 rounded-2xl mb-8 shadow-lg max-w-3xl">
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                  <i className="fa fa-exclamation-triangle text-amber-600 text-xl"></i>
-                </div>
-              </div>
-              <div className="text-left">
-                <h3 className="text-lg font-bold text-slate-800 mb-2">Important Notice</h3>
-                <p className="text-slate-700 leading-relaxed">
-                  We are not a recruitment agency. We aggregate publicly available job listings to help you find opportunities. 
-                  Always verify job postings independently before applying.
-                </p>
               </div>
             </div>
           </div>
         </div>
+      </main>
+
+      {/* Footer */}
       <Footer />
     </div>
   );
+};
+
 export default CountrySelection;
