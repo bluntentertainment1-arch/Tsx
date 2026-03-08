@@ -40,11 +40,11 @@ const CountrySelection: React.FC = () => {
   const loadCountries = async () => {
     setLoading(true);
     const response = await jobsApi.getAvailableCountries();
-    
+
     if (response.data) {
       setCountries(response.data);
     }
-    
+
     setLoading(false);
   };
 
@@ -61,22 +61,21 @@ const CountrySelection: React.FC = () => {
       'united kingdom': '🇬🇧',
       'uk': '🇬🇧',
     };
-    
     return flagMap[countryName.toLowerCase()] || '🌍';
   };
 
   const getCurrentDate = (): string => {
-    const options: Intl.DateTimeFormatOptions = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     };
     return new Date().toLocaleDateString('en-US', options);
   };
 
   const handleGermanJobsClick = () => {
-    window.open('https://globalworkvisajobs.pages.dev', '_blank', 'noopener,noreferrer');
+    window.open('https://globalworkvisajobs.com/jobs/germany', '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -123,95 +122,32 @@ const CountrySelection: React.FC = () => {
               </button>
               {showMenuDropdown && (
                 <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-lg w-48 z-30 border border-slate-200">
-                  <button
-                    onClick={() => {
-                      navigate('/');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 rounded-t-xl border-b border-slate-100"
-                  >
-                    <i className="fa fa-home mr-2 text-blue-600"></i>
-                    Home
+                  <button onClick={() => { navigate('/'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 rounded-t-xl border-b border-slate-100">
+                    <i className="fa fa-home mr-2 text-blue-600"></i> Home
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/blog');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-newspaper mr-2 text-indigo-600"></i>
-                    Blog & Resources
+                  <button onClick={() => { navigate('/blog'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-newspaper mr-2 text-indigo-600"></i> Blog & Resources
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/saved');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-bookmark mr-2 text-blue-600"></i>
-                    Saved Jobs
+                  <button onClick={() => { navigate('/saved'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-bookmark mr-2 text-blue-600"></i> Saved Jobs
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/visa-tips');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-lightbulb mr-2 text-purple-600"></i>
-                    Visa Tips
+                  <button onClick={() => { navigate('/visa-tips'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-lightbulb mr-2 text-purple-600"></i> Visa Tips
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/about');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-info-circle mr-2 text-indigo-600"></i>
-                    About Us
+                  <button onClick={() => { navigate('/about'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-info-circle mr-2 text-indigo-600"></i> About Us
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/contact');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-envelope mr-2 text-green-600"></i>
-                    Contact
+                  <button onClick={() => { navigate('/contact'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-envelope mr-2 text-green-600"></i> Contact
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/privacy');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-shield-alt mr-2 text-blue-600"></i>
-                    Privacy Policy
+                  <button onClick={() => { navigate('/privacy'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-shield-alt mr-2 text-blue-600"></i> Privacy Policy
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/terms');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100"
-                  >
-                    <i className="fa fa-file-text mr-2 text-green-600"></i>
-                    Terms of Use
+                  <button onClick={() => { navigate('/terms'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 border-b border-slate-100">
+                    <i className="fa fa-file-text mr-2 text-green-600"></i> Terms of Use
                   </button>
-                  <button
-                    onClick={() => {
-                      navigate('/disclaimer');
-                      setShowMenuDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 rounded-b-xl"
-                  >
-                    <i className="fa fa-exclamation-triangle mr-2 text-amber-600"></i>
-                    Disclaimer
+                  <button onClick={() => { navigate('/disclaimer'); setShowMenuDropdown(false); }} className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors text-slate-700 rounded-b-xl">
+                    <i className="fa fa-exclamation-triangle mr-2 text-amber-600"></i> Disclaimer
                   </button>
                 </div>
               )}
@@ -225,8 +161,7 @@ const CountrySelection: React.FC = () => {
           <div className="inline-block mb-4">
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg border border-blue-100">
               <p className="text-sm text-slate-600 font-medium">
-                <i className="fa fa-calendar-alt mr-2 text-blue-600"></i>
-                {getCurrentDate()}
+                <i className="fa fa-calendar-alt mr-2 text-blue-600"></i> {getCurrentDate()}
               </p>
             </div>
           </div>
@@ -243,8 +178,7 @@ const CountrySelection: React.FC = () => {
           </p>
           <div className="inline-block bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl px-6 py-3 border border-blue-200 shadow-sm">
             <p className="text-sm text-blue-700 font-semibold">
-              <i className="fa fa-sync-alt mr-2"></i>
-              Jobs are updated every 24 hours
+              <i className="fa fa-sync-alt mr-2"></i> Jobs are updated every 24 hours
             </p>
           </div>
         </div>
@@ -262,7 +196,10 @@ const CountrySelection: React.FC = () => {
               {countries.map((country) => (
                 <button
                   key={country}
-                  onClick={() => navigate(`/jobs/${country.toLowerCase().replace(/\s+/g, '-')}`)}
+                  onClick={() => {
+                    if (country.toLowerCase() === 'germany') handleGermanJobsClick();
+                    else navigate(`/jobs/${country.toLowerCase().replace(/\s+/g, '-')}`);
+                  }}
                   className="group relative bg-white rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl border border-slate-100 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -285,15 +222,115 @@ const CountrySelection: React.FC = () => {
             {/* AdSense banner below country cards */}
             <AdBanner />
 
-            {/* Featured jobs section */}
-            <FeaturedJobs />
-          </>
-        )}
-      </main>
+            {/* Featured jobs limited to 3 */}
+            <FeaturedJobs limit={3} />
 
-      <Footer />
-    </div>
-  );
-};
+            {/* Blog section */}
+            <div className="mt-20 mb-16">
+              <div className="text-center mb-12">
+                <div className="inline-block mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg mx-auto">
+                    <i className="fa fa-newspaper text-3xl text-white"></i>
+                  </div>
+                </div>
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-700 bg-clip-text text-transparent mb-4">
+                  Career Resources & Guides
+                </h2>
+                <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                  Expert advice and comprehensive guides to help you succeed in your European job search
+                </p>
+              </div>
 
-export default CountrySelection;
+              <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <button onClick={() => navigate('/blog/work-visa-guide')} className="group text-left bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-blue-100">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fa fa-passport text-blue-600 text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Complete Work Visa Guide</h3>
+                      <p className="text-sm text-slate-600 mb-3">Step-by-step process for getting work visas in Europe</p>
+                      <span className="text-xs text-blue-600 font-semibold">Read More <i className="fa fa-arrow-right ml-1"></i></span>
+                    </div>
+                  </div>
+                </button>
+
+                <button onClick={() => navigate('/blog/top-countries-visa-sponsorship')} className="group text-left bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-purple-100">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fa fa-globe-europe text-purple-600 text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors">Top 5 Countries for Jobs</h3>
+                      <p className="text-sm text-slate-600 mb-3">Best European countries offering visa sponsorship</p>
+                      <span className="text-xs text-purple-600 font-semibold">Read More <i className="fa fa-arrow-right ml-1"></i></span>
+                    </div>
+                  </div>
+                </button>
+
+                <button onClick={() => navigate('/blog/avoid-job-scams')} className="group text-left bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-amber-100">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fa fa-shield-alt text-amber-600 text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">Avoid Job Scams</h3>
+                      <p className="text-sm text-slate-600 mb-3">Essential tips to identify and avoid recruitment fraud</p>
+                      <span className="text-xs text-amber-600 font-semibold">Read More <i className="fa fa-arrow-right ml-1"></i></span>
+                    </div>
+                  </div>
+                </button>
+
+                                <button
+                  onClick={() => navigate('/blog/avoid-job-scams')}
+                  className="group text-left bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-amber-100"
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fa fa-shield-alt text-amber-600 text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">
+                        Avoid Job Scams
+                      </h3>
+                      <p className="text-sm text-slate-600 mb-3">
+                        Essential tips to identify and avoid recruitment fraud
+                      </p>
+                      <span className="text-xs text-amber-600 font-semibold">
+                        Read More <i className="fa fa-arrow-right ml-1"></i>
+                      </span>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => navigate('/blog/interview-preparation')}
+                  className="group text-left bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-green-100"
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fa fa-user-tie text-green-600 text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">
+                        Interview Preparation Tips
+                      </h3>
+                      <p className="text-sm text-slate-600 mb-3">
+                        How to ace your European job interviews
+                      </p>
+                      <span className="text-xs text-green-600 font-semibold">
+                        Read More <i className="fa fa-arrow-right ml-1"></i>
+                      </span>
+                    </div>
+                  </div>
+                </button>
