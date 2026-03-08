@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import BrandingBadge from './components/BrandingBadge';
 import CountrySelection from './screens/CountrySelection';
 import JobListing from './screens/JobListing';
 import JobDetails from './screens/JobDetails';
@@ -27,7 +26,6 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <BrandingBadge />
       <Routes>
         <Route path="/" element={<CountrySelection />} />
         <Route path="/jobs/:country" element={<JobListing />} />
