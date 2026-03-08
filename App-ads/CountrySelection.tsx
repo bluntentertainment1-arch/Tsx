@@ -3,6 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import { jobsApi } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Footer from '../components/Footer';
+import FeaturedJobs from './FeaturedJobs';
+
+// AdSense banner component
+const AdBanner: React.FC = () => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'block', margin: '1rem 0' }}
+      data-ad-client="ca-pub-1819215492028258"
+      data-ad-slot="8509863911"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+  );
+};
 
 const CountrySelection: React.FC = () => {
   const navigate = useNavigate();
@@ -234,202 +257,38 @@ const CountrySelection: React.FC = () => {
             <p className="text-slate-500 text-lg">No countries available at the moment</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-            {countries.map((country) => (
-              <button
-                key={country}
-                onClick={() => navigate(`/jobs/${country.toLowerCase().replace(/\s+/g, '-')}`)}
-                className="group relative bg-white rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl border border-slate-100 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative">
-                  <div className="text-8xl mb-6 group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg">
-                    {getCountryFlag(country)}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-8">
+              {countries.map((country) => (
+                <button
+                  key={country}
+                  onClick={() => navigate(`/jobs/${country.toLowerCase().replace(/\s+/g, '-')}`)}
+                  className="group relative bg-white rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl border border-slate-100 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative">
+                    <div className="text-8xl mb-6 group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg">
+                      {getCountryFlag(country)}
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                      {country}
+                    </h3>
+                    <div className="mt-4 flex items-center justify-center text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-sm font-semibold mr-2">Explore Jobs</span>
+                      <i className="fa fa-arrow-right"></i>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                    {country}
-                  </h3>
-                  <div className="mt-4 flex items-center justify-center text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-sm font-semibold mr-2">Explore Jobs</span>
-                    <i className="fa fa-arrow-right"></i>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
+                </button>
+              ))}
+            </div>
+
+            {/* AdSense banner below country cards */}
+            <AdBanner />
+
+            {/* Featured jobs section */}
+            <FeaturedJobs />
+          </>
         )}
-
-        <div className="mt-20 mb-16">
-          <div className="text-center mb-12">
-            <div className="inline-block mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg mx-auto">
-                <i className="fa fa-newspaper text-3xl text-white"></i>
-              </div>
-            </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-700 bg-clip-text text-transparent mb-4">
-              Career Resources & Guides
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Expert advice and comprehensive guides to help you succeed in your European job search
-            </p>
-          </div>
-
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <button
-                  onClick={() => navigate('/blog/work-visa-guide')}
-                  className="group text-left bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-blue-100"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fa fa-passport text-blue-600 text-xl"></i>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
-                        Complete Work Visa Guide
-                      </h3>
-                      <p className="text-sm text-slate-600 mb-3">
-                        Step-by-step process for getting work visas in Europe
-                      </p>
-                      <span className="text-xs text-blue-600 font-semibold">
-                        Read More <i className="fa fa-arrow-right ml-1"></i>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => navigate('/blog/top-countries-visa-sponsorship')}
-                  className="group text-left bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-purple-100"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fa fa-globe-europe text-purple-600 text-xl"></i>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors">
-                        Top 5 Countries for Jobs
-                      </h3>
-                      <p className="text-sm text-slate-600 mb-3">
-                        Best European countries offering visa sponsorship
-                      </p>
-                      <span className="text-xs text-purple-600 font-semibold">
-                        Read More <i className="fa fa-arrow-right ml-1"></i>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => navigate('/blog/avoid-job-scams')}
-                  className="group text-left bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-amber-100"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fa fa-shield-alt text-amber-600 text-xl"></i>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors">
-                        Avoid Job Scams
-                      </h3>
-                      <p className="text-sm text-slate-600 mb-3">
-                        Essential tips to identify and avoid recruitment fraud
-                      </p>
-                      <span className="text-xs text-amber-600 font-semibold">
-                        Read More <i className="fa fa-arrow-right ml-1"></i>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => navigate('/blog/interview-preparation')}
-                  className="group text-left bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-green-100"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fa fa-user-tie text-green-600 text-xl"></i>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">
-                        Interview Preparation
-                      </h3>
-                      <p className="text-sm text-slate-600 mb-3">
-                        Master remote interviews for European jobs
-                      </p>
-                      <span className="text-xs text-green-600 font-semibold">
-                        Read More <i className="fa fa-arrow-right ml-1"></i>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              </div>
-
-              <div className="mt-8 text-center">
-                <button
-                  onClick={() => navigate('/blog')}
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-indigo-700 transition-all"
-                >
-                  <i className="fa fa-book-open"></i>
-                  <span>View All Articles</span>
-                  <i className="fa fa-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-20 mb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl shadow-xl p-8 text-white text-center">
-              <div className="mb-6">
-                <div className="inline-block w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                  <i className="fa fa-briefcase text-3xl"></i>
-                </div>
-                <h3 className="text-3xl font-bold mb-4">Find German Jobs</h3>
-                <p className="text-lg text-blue-50 mb-6">
-                  Browse current opportunities in Germany with visa sponsorship
-                </p>
-              </div>
-              <button
-                onClick={handleGermanJobsClick}
-                className="inline-flex items-center space-x-3 bg-white text-blue-600 font-bold px-8 py-4 rounded-xl hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
-              >
-                <i className="fa fa-external-link-alt"></i>
-                <span>Browse German Jobs</span>
-                <i className="fa fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-20 text-center">
-          <div className="inline-block bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 p-8 rounded-2xl mb-8 shadow-lg max-w-3xl">
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                  <i className="fa fa-exclamation-triangle text-amber-600 text-xl"></i>
-                </div>
-              </div>
-              <div className="text-left">
-                <h3 className="text-lg font-bold text-slate-800 mb-2">Important Notice</h3>
-                <p className="text-slate-700 leading-relaxed">
-                  We are not a recruitment agency. We aggregate publicly available job listings to help you find opportunities. 
-                  Always verify job postings independently before applying.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </main>
 
       <Footer />
