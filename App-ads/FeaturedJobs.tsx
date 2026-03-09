@@ -4,11 +4,15 @@ import { jobsApi, savedJobsApi, Job } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import JobCard from '../components/JobCard';
 
+interface FeaturedJobsProps {
+  maxItems?: number;
+}
+
 // AdSense banner component
 const AdBanner: React.FC = () => {
   useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      (window.adsbygoogle = (window as any).adsbygoogle || []).push({});
     } catch (e) {
       console.error(e);
     }
@@ -26,7 +30,7 @@ const AdBanner: React.FC = () => {
   );
 };
 
-const FeaturedJobs: React.FC = () => {
+const FeaturedJobs: React.FC<FeaturedJobsProps> = ({ maxItems }) => {
   const navigate = useNavigate();
   const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,20 +92,36 @@ const FeaturedJobs: React.FC = () => {
     );
   }
 
+  const jobsToShow = maxItems ? featuredJobs.slice(0, maxItems) : featuredJobs;
+
   return (
     <div className="space-y-4 container mx-auto px-4 py-6">
-      {featuredJobs.map((job, index) => (
+
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-800">
+          ⭐ Featured Jobs
+        </h2>
+        <p className="text-slate-600">
+          Handpicked visa-sponsored opportunities
+        </p>
+      </div>
+
+      {jobsToShow.map((job, index) => (
         <React.Fragment key={job.id}>
+
           <JobCard
             job={job}
             isSaved={savedJobsApi.isSaved(job.id)}
             onApply={() => {}}
             onSave={() => handleSaveJob(job.id)}
           />
-          {/* Insert AdSense banner after the 3rd job */}
+
+          {/* AdSense after the 3rd job */}
           {index === 2 && <AdBanner />}
+
         </React.Fragment>
       ))}
+
     </div>
   );
 };
