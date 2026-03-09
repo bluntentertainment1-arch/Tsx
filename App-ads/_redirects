@@ -1,1 +1,14 @@
-/*    /index.html   200
+# Serve the sitemap.xml directly (so search engines can access it)
+ /sitemap.xml   /sitemap.xml   200
+
+# Optionally, if you have robots.txt
+ /robots.txt    /robots.txt    200
+
+# Specific country/job redirects (optional, only if you want custom URLs)
+ /jobs/uk       /jobs/uk       200
+ /jobs/canada   /jobs/canada   200
+ /jobs/germany  /jobs/germany  200
+ /jobs/czech-republic /jobs/czech-republic 200
+
+# Catch-all for React SPA routing
+ /*             /index.html   200
