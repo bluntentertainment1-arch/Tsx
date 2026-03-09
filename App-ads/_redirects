@@ -10,5 +10,8 @@
  /jobs/germany  /jobs/germany  200
  /jobs/czech-republic /jobs/czech-republic 200
 
+# Optional: serve other XML or RSS files directly if needed
+# /rss.xml    /rss.xml   200
+
 # Catch-all for React SPA routing
  /*             /index.html   200
