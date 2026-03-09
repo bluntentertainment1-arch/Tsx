@@ -1,4 +1,7 @@
 User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /login/
 Allow: /
 
-Sitemap: https://globalworkvisajobs.com/sitemap
+Sitemap: https://globalworkvisajobs.com/sitemap-index.xml
