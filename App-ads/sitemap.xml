@@ -1,2 +1,21 @@
-<?xml version='1.0' encoding='utf-8'?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://globalworkvisajobs.com/job/1</loc><lastmod>2026-02-22</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url><url><loc>https://globalworkvisajobs.com/job/2</loc><lastmod>2026-02-22</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url><url><loc>https://globalworkvisajobs.com/job/3</loc><lastmod>2026-02-22</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url><url><loc>https://globalworkvisajobs.com/job/4</loc><lastmod>2026-02-22</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url><url><loc>https://globalworkvisajobs.com/job/5</loc><lastmod>2026-02-22</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<sitemap>
+<loc>https://globalworkvisajobs.com/sitemap-pages.xml</loc>
+</sitemap>
+
+<sitemap>
+<loc>https://globalworkvisajobs.com/sitemap-jobs.xml</loc>
+</sitemap>
+
+<sitemap>
+<loc>https://globalworkvisajobs.com/sitemap-blog.xml</loc>
+</sitemap>
+
+<sitemap>
+
+<loc>https://globalworkvisajobs.com/sitemap-countries.xml</loc>
+</sitemap>
+
+</sitemapindex>
