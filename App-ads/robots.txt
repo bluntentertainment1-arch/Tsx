@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /login/
 Allow: /
 
-Sitemap: https://globalworkvisajobs.com/sitemap-index.xml
+Sitemap: https://globalworkvisajobs.com/sitemap.xml
