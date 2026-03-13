@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jobsApi, savedJobsApi, Job } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
-import AdSense from '../components/AdSense'; // Added AdSense
+import AdSense from '../components/AdSense';
 
 const JobDetails: React.FC = () => {
   const { jobId } = useParams<{ jobId: string }>();
@@ -11,7 +11,6 @@ const JobDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSaved, setIsSaved] = useState(false);
-  const [showMenuDropdown, setShowMenuDropdown] = useState(false);
 
   useEffect(() => {
     if (jobId) loadJobDetails();
@@ -50,7 +49,9 @@ const JobDetails: React.FC = () => {
   };
 
   const handleApply = () => {
-    if (jobId) navigate(`/apply/${jobId}`);
+    if (job && job.apply_url) {
+      window.open(job.apply_url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   if (loading) {
@@ -75,37 +76,76 @@ const JobDetails: React.FC = () => {
     );
   }
 
-  const isFeatured = job.featured === 'Yes';
+  const isFeatured = job.featured?.toLowerCase() === 'yes';
+  
+  // Structured data JSON-LD
+  const jobPostingSchema = {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": job.title,
+    "description": job.description,
+    "datePosted": job.date_added,
+    "validThrough": job.expiry_date || undefined,
+    "employmentType": job.employment_type || "FULL_TIME",
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "Global Work Visa Jobs",
+      "sameAs": "https://globalworkvisajobs.com"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": job.location,
+        "addressCountry": job.country || "Unknown"
+      }
+    },
+    "baseSalary": job.salary && job.salary.toLowerCase() !== 'not specified' ? {
+      "@type": "MonetaryAmount",
+      "currency": "USD",
+      "value": {
+        "@type": "QuantitativeValue",
+        "value": job.salary.replace(/[^0-9]/g,''),
+        "unitText": "YEAR"
+      }
+    } : undefined,
+    "jobLocationType": "TELECOMMUTE",
+    "applicantLocationRequirements": job.visa_tag === 'Visa Sponsored' ? {
+      "@type": "Country",
+      "name": job.country
+    } : undefined
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Inject structured data */}
+      <script type="application/ld+json">
+        {JSON.stringify(jobPostingSchema)}
+      </script>
+
       <header className="glass-effect shadow-xl sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate(-1)}
-              className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
-              aria-label="Go back"
-            >
-              <i className="fa fa-arrow-left text-lg"></i>
-            </button>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Job Details
-            </h1>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={handleSaveJob}
-                className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center"
-                aria-label={isSaved ? 'Unsave job' : 'Save job'}
-              >
-                <i className={`fa ${isSaved ? 'fa-bookmark' : 'fa-bookmark-o'} text-xl ${isSaved ? 'text-blue-600' : 'text-slate-400'}`}></i>
-              </button>
-            </div>
-          </div>
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
+            aria-label="Go back"
+          >
+            <i className="fa fa-arrow-left text-lg"></i>
+          </button>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Job Details
+          </h1>
+          <button
+            onClick={handleSaveJob}
+            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center"
+            aria-label={isSaved ? 'Unsave job' : 'Save job'}
+          >
+            <i className={`fa ${isSaved ? 'fa-bookmark' : 'fa-bookmark-o'} text-xl ${isSaved ? 'text-blue-600' : 'text-slate-400'}`}></i>
+          </button>
         </div>
       </header>
 
-      {/* Top Banner Ad */}
+      {/* Top Ad */}
       <div className="my-4">
         <AdSense slot="8509863911" format="auto" responsive="true" className="w-full max-w-7xl mx-auto px-4" />
       </div>
@@ -148,7 +188,7 @@ const JobDetails: React.FC = () => {
         </div>
       </main>
 
-      {/* Multiplex Ad above Apply */}
+      {/* Ad above Apply */}
       <div className="mb-4 px-4">
         <AdSense slot="4634556878" format="autorelaxed" className="w-full max-w-7xl mx-auto" />
       </div>
