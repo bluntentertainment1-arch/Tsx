@@ -54,6 +54,37 @@ const JobDetails: React.FC = () => {
     }
   };
 
+  // ✅ ISO DATE FORMAT
+  const formatToISO = (dateString: string) => {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? undefined : date.toISOString().split('T')[0];
+  };
+
+  // ✅ CLEAN SALARY VALUE
+  const extractSalary = (salary: string) => {
+    const numbers = salary.replace(/[^0-9]/g, '');
+    return numbers ? parseInt(numbers) : undefined;
+  };
+
+  // ✅ DYNAMIC CURRENCY
+  const getCurrency = (country: string) => {
+    const c = country?.toLowerCase();
+    if (c?.includes('canada')) return 'CAD';
+    if (c?.includes('uk') || c?.includes('united kingdom')) return 'GBP';
+    if (c?.includes('germany') || c?.includes('poland') || c?.includes('czech') || c?.includes('romania')) return 'EUR';
+    return 'USD';
+  };
+
+  // ✅ EMPLOYMENT TYPE
+  const getEmploymentType = (type?: string) => {
+    if (!type) return "FULL_TIME";
+    const t = type.toLowerCase();
+    if (t.includes('part')) return "PART_TIME";
+    if (t.includes('contract')) return "CONTRACTOR";
+    if (t.includes('temporary')) return "TEMPORARY";
+    return "FULL_TIME";
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -77,21 +108,32 @@ const JobDetails: React.FC = () => {
   }
 
   const isFeatured = job.featured?.toLowerCase() === 'yes';
-  
-  // Structured data JSON-LD
+
+  // ✅ FULLY OPTIMIZED SCHEMA
   const jobPostingSchema = {
     "@context": "https://schema.org/",
     "@type": "JobPosting",
+
     "title": job.title,
     "description": job.description,
-    "datePosted": job.date_added,
-    "validThrough": job.expiry_date || undefined,
-    "employmentType": job.employment_type || "FULL_TIME",
+
+    "identifier": {
+      "@type": "PropertyValue",
+      "name": "Global Work Visa Jobs",
+      "value": job.id
+    },
+
+    "datePosted": formatToISO(job.date_added),
+    "validThrough": job.expiry_date ? formatToISO(job.expiry_date) : undefined,
+
+    "employmentType": getEmploymentType(job.employment_type),
+
     "hiringOrganization": {
       "@type": "Organization",
       "name": "Global Work Visa Jobs",
       "sameAs": "https://globalworkvisajobs.com"
     },
+
     "jobLocation": {
       "@type": "Place",
       "address": {
@@ -100,16 +142,21 @@ const JobDetails: React.FC = () => {
         "addressCountry": job.country || "Unknown"
       }
     },
-    "baseSalary": job.salary && job.salary.toLowerCase() !== 'not specified' ? {
+
+    "baseSalary": job.salary && job.salary.toLowerCase() !== 'not specified' && extractSalary(job.salary) ? {
       "@type": "MonetaryAmount",
-      "currency": "USD",
+      "currency": getCurrency(job.country),
       "value": {
         "@type": "QuantitativeValue",
-        "value": job.salary.replace(/[^0-9]/g,''),
+        "value": extractSalary(job.salary),
         "unitText": "YEAR"
       }
     } : undefined,
+
+    "directApply": true,
+
     "jobLocationType": "TELECOMMUTE",
+
     "applicantLocationRequirements": job.visa_tag === 'Visa Sponsored' ? {
       "@type": "Country",
       "name": job.country
@@ -118,34 +165,24 @@ const JobDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Inject structured data */}
       <script type="application/ld+json">
         {JSON.stringify(jobPostingSchema)}
       </script>
 
       <header className="glass-effect shadow-xl sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <button
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center text-blue-600"
-            aria-label="Go back"
-          >
+          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg flex items-center justify-center text-blue-600">
             <i className="fa fa-arrow-left text-lg"></i>
           </button>
           <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             Job Details
           </h1>
-          <button
-            onClick={handleSaveJob}
-            className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center"
-            aria-label={isSaved ? 'Unsave job' : 'Save job'}
-          >
+          <button onClick={handleSaveJob} className="w-10 h-10 rounded-xl bg-white shadow-md hover:shadow-lg flex items-center justify-center">
             <i className={`fa ${isSaved ? 'fa-bookmark' : 'fa-bookmark-o'} text-xl ${isSaved ? 'text-blue-600' : 'text-slate-400'}`}></i>
           </button>
         </div>
       </header>
 
-      {/* Top Ad */}
       <div className="my-4">
         <AdSense slot="8509863911" format="auto" responsive="true" className="w-full max-w-7xl mx-auto px-4" />
       </div>
@@ -188,18 +225,13 @@ const JobDetails: React.FC = () => {
         </div>
       </main>
 
-      {/* Ad above Apply */}
       <div className="mb-4 px-4">
         <AdSense slot="4634556878" format="autorelaxed" className="w-full max-w-7xl mx-auto" />
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg p-4">
         <div className="container mx-auto">
-          <button
-            onClick={handleApply}
-            disabled={!job.apply_url}
-            className="btn-primary w-full py-4 text-lg"
-          >
+          <button onClick={handleApply} disabled={!job.apply_url} className="btn-primary w-full py-4 text-lg">
             <i className="fa fa-paper-plane mr-2"></i>
             Apply Now
           </button>
