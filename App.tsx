@@ -1,82 +1,71 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { TopBannerAd } from './components/ads/AdUnits';
-// Import other components as needed
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import SplashScreen from './screens/SplashScreen';
+import CountrySelection from './screens/CountrySelection';
+import JobListing from './screens/JobListing';
+import JobDetails from './screens/JobDetails';
+import ApplyScreen from './screens/ApplyScreen';
+import SavedJobs from './screens/SavedJobs';
+import VisaTips from './screens/VisaTips';
+import LegalPage from './screens/LegalPage';
+import ContactPage from './screens/ContactPage';
+import AboutPage from './screens/AboutPage';
+import BlogHome from './screens/BlogHome';
+import BlogPost from './screens/BlogPost';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 const App: React.FC = () => {
-  useEffect(() => {
-    // Inject AdSense script globally only once
-    const script = document.createElement('script');
-    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1819215492028258";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    document.head.appendChild(script);
+  const [showSplash, setShowSplash] = useState(false);
 
-    return () => {
-      // Cleanup not strictly necessary for AdSense script but good practice
-      const existingScript = document.querySelector(`script[src*="adsbygoogle"]`);
-      if (existingScript) document.head.removeChild(existingScript);
-    };
+  useEffect(() => {
+    const hasSeenSplash = localStorage.getItem('seenSplash');
+
+    if (!hasSeenSplash) {
+      setShowSplash(true);
+
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        localStorage.setItem('seenSplash', 'true');
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
+  if (showSplash) {
+    return <SplashScreen />;
+  }
+
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        {/* Header Component Placeholder */}
-        <header className="bg-white shadow-sm h-16 flex items-center px-4"> 
-           <h1 className="font-bold">Kidurbhao</h1>
-        </header>
-
-        {/* 1. TOP BANNER DISPLAY AD - Below header */}
-        <TopBannerAd />
-
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/jobs/:id" element={<JobDetailPage />} />
-            {/* Other routes */}
-          </Routes>
-        </main>
-
-        {/* Multiplex Ad usually goes here, before footer */}
-        <Routes>
-           <Route path="/" element={<div className="mt-8"><MultiplexAd /></div>} />
-           <Route path="/jobs/:id" element={<div className="mt-8"><MultiplexAd /></div>} />
-        </Routes>
-
-        <footer className="bg-gray-800 text-white p-8 mt-auto">
-           <p>&copy; 2024 Kidurbhao</p>
-        </footer>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<CountrySelection />} />
+        <Route path="/jobs/:country" element={<JobListing />} />
+        <Route path="/job/:jobId" element={<JobDetails />} />
+        <Route path="/apply/:jobId" element={<ApplyScreen />} />
+        <Route path="/saved" element={<SavedJobs />} />
+        <Route path="/visa-tips" element={<VisaTips />} />
+        <Route path="/blog" element={<BlogHome />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<LegalPage type="privacy" />} />
+        <Route path="/terms" element={<LegalPage type="terms" />} />
+        <Route path="/disclaimer" element={<LegalPage type="disclaimer" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
-
-// Example usage of In-Article Ad inside a list or content
-const HomePage = () => {
-  const items = Array.from({ length: 20 });
-  return (
-    <div className="max-w-4xl mx-auto p-4">
-      {items.map((_, index) => (
-        <React.Fragment key={index}>
-          <div className="p-4 mb-4 bg-white border rounded">Job Listing Item {index + 1}</div>
-          {/* 2. IN-ARTICLE AD - After every 8 items */}
-          {(index + 1) % 8 === 0 && <InArticleAd />}
-        </React.Fragment>
-      ))}
-    </div>
-  );
-};
-
-const JobDetailPage = () => (
-  <div className="max-w-3xl mx-auto p-4 prose">
-    <p>Paragraph 1: Lorem ipsum dolor sit amet...</p>
-    <p>Paragraph 2: Consectetur adipiscing elit...</p>
-    {/* 2. IN-ARTICLE AD - After 2nd paragraph */}
-    <InArticleAd />
-    <p>Paragraph 3: Sed do eiusmod tempor incididunt...</p>
-    <p>Paragraph 4: Ut labore et dolore magna aliqua...</p>
-  </div>
-);
 
 export default App;
