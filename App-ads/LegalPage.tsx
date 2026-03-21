@@ -25,8 +25,8 @@ const LegalPage: React.FC<LegalPageProps> = ({ type }) => {
           text: 'Our website uses cookies to enhance user experience and analyze traffic.\n\nCookies are small data files stored on your device. You may disable cookies through your browser settings at any time.',
         },
         {
-          heading: '3. Google AdSense & Advertising',
-          text: 'We use Google AdSense, a third-party advertising service provided by Google Inc.\n\nGoogle may use cookies, including the DoubleClick Cookie, to display ads based on users\' visits to this and other websites.\n\nGoogle may collect information such as:\n• IP address\n• Browser information\n• Device identifiers\n• Browsing behavior\n\nUsers may opt out of personalized advertising by visiting:\nhttps://www.google.com/settings/ads\n\nFor more information, please review Google\'s Privacy Policy:\nhttps://policies.google.com/privacy',
+          heading: '3. Google Admob & Advertising',
+          text: 'We use Google Admob, a third-party advertising service provided by Google Inc.\n\nGoogle may use cookies, including the DoubleClick Cookie, to display ads based on users\' visits to this and other websites.\n\nGoogle may collect information such as:\n• IP address\n• Browser information\n• Device identifiers\n• Browsing behavior\n\nUsers may opt out of personalized advertising by visiting:\nhttps://www.google.com/settings/ads\n\nFor more information, please review Google\'s Privacy Policy:\nhttps://policies.google.com/privacy',
         },
         {
           heading: '4. Third-Party Services',
