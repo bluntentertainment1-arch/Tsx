@@ -57,12 +57,6 @@ const JobDetails: React.FC = () => {
     }
   };
 
-  const handleApply = () => {
-    if (jobId) {
-      navigate(`/apply/${jobId}`);
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -241,14 +235,15 @@ const JobDetails: React.FC = () => {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg p-4">
         <div className="container mx-auto">
-          <button
-            onClick={handleApply}
-            disabled={!job.apply_url}
-            className="btn-primary w-full py-4 text-lg"
+          <a
+            href={job.apply_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`btn-primary w-full py-4 text-lg flex items-center justify-center ${!job.apply_url ? 'pointer-events-none opacity-50' : ''}`}
           >
             <i className="fa fa-paper-plane mr-2"></i>
             Apply Now
-          </button>
+          </a>
         </div>
       </div>
     </div>
