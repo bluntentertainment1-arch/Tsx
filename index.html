@@ -6,7 +6,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <!-- CRITICAL FIX: Added maximum-scale=1.0 and shrink-to-fit=no -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
     <meta name="description" content="Global Work Visa Jobs - Find Your Dream Job in Europe" />
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
@@ -32,6 +33,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1819215492028258"
      crossorigin="anonymous"></script>
+    
+    <!-- CRITICAL FIX: Prevent zoom and handle rotation -->
+    <script>
+      // Prevent zoom gestures
+      document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+      });
+      
+      // Handle orientation change - force recalculation
+      window.addEventListener('orientationchange', function() {
+        setTimeout(function() {
+          window.scrollTo(0, 0);
+          document.body.style.zoom = '1.0';
+          // Trigger resize event
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
+      });
+    </script>
+    
     <title>Global Work Visa Jobs</title>
   </head>
   <body>
