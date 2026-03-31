@@ -109,7 +109,7 @@ const JobDetails: React.FC = () => {
 
   const isFeatured = job.featured?.toLowerCase() === 'yes';
 
-  // ✅ FULLY OPTIMIZED SCHEMA
+  // ✅ FIXED SCHEMA - Removed jobLocationType TELECOMMUTE, fixed location structure
   const jobPostingSchema = {
     "@context": "https://schema.org/",
     "@type": "JobPosting",
@@ -134,14 +134,19 @@ const JobDetails: React.FC = () => {
       "sameAs": "https://globalworkvisajobs.com"
     },
 
+    // ✅ FIXED: Proper jobLocation structure for sitemap validation
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": job.location,
+        "addressLocality": job.location || job.country || "Unknown",
         "addressCountry": job.country || "Unknown"
       }
     },
+
+    // ✅ REMOVED: jobLocationType: "TELECOMMUTE" - was causing sitemap issues
+    // Only add if job is actually remote
+    "jobLocationType": job.location?.toLowerCase().includes('remote') ? "TELECOMMUTE" : undefined,
 
     "baseSalary": job.salary && job.salary.toLowerCase() !== 'not specified' && extractSalary(job.salary) ? {
       "@type": "MonetaryAmount",
@@ -155,11 +160,9 @@ const JobDetails: React.FC = () => {
 
     "directApply": true,
 
-    "jobLocationType": "TELECOMMUTE",
-
     "applicantLocationRequirements": job.visa_tag === 'Visa Sponsored' ? {
       "@type": "Country",
-      "name": job.country
+      "name": job.country || "Unknown"
     } : undefined
   };
 
@@ -183,6 +186,7 @@ const JobDetails: React.FC = () => {
         </div>
       </header>
 
+      {/* Top Ad - Safe placement */}
       <div className="my-4">
         <AdSense slot="8509863911" format="auto" responsive="true" className="w-full max-w-7xl mx-auto px-4" />
       </div>
@@ -225,10 +229,9 @@ const JobDetails: React.FC = () => {
         </div>
       </main>
 
-      <div className="mb-4 px-4">
-        <AdSense slot="4634556878" format="autorelaxed" className="w-full max-w-7xl mx-auto" />
-      </div>
-
+      {/* ✅ REMOVED: AdSense ad before apply button - violates AdSense policies */}
+      
+      {/* Apply Button - Clean, no ads nearby */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg p-4">
         <div className="container mx-auto">
           <button onClick={handleApply} disabled={!job.apply_url} className="btn-primary w-full py-4 text-lg">
